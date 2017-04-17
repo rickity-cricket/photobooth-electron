@@ -13,7 +13,6 @@ app.on('ready', _ => {
   globalShortcut.register('CmdOrCtrl+Q', _ => { app.quit() })
 })
 
-
 app.on('close', _ => {
   mainWindow = null
 })
