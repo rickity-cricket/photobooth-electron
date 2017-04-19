@@ -25,12 +25,14 @@ body {
 .video {
   position: absolute;
   top: 20px;
-  left: 20px;
+  //left: 20px;
+  z-index: 111;
 }
 .canvas {
   position: absolute;
   top: 20px;
   left: 20px;
+  z-index: 110;
 }
 .recordContainer {
   display: flex;

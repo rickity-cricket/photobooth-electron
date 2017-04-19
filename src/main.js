@@ -1,5 +1,7 @@
 const electron = require('electron')
-const { app, BrowserWindow, globalShortcut } = electron
+const images = require('./images')
+const local = require('electron-localshortcut')
+const { app, BrowserWindow, ipcMain: ipc, shell } = electron
 
 app.on('ready', _ => {
   mainWindow = new BrowserWindow({
@@ -10,9 +12,29 @@ app.on('ready', _ => {
 
   mainWindow.loadURL(`file://${__dirname}/capture.html`)
 
-  globalShortcut.register('CmdOrCtrl+Q', _ => { app.quit() })
+  images.mkdir(images.getPicturesDir(app))
+
+  local.register(mainWindow,'CmdOrCtrl+Q', _ => {
+    app.quit()
+  })
+
+  mainWindow.on('closed', _ => {
+    mainWindow = null
+  })
 })
 
-app.on('close', _ => {
-  mainWindow = null
+ipc.on('image-captured', (evt, contents) => {
+  images.save(images.getPicturesDir(app), contents, (err, imgPath) => {
+    images.cache(imgPath)
+  })
 })
+
+ipc.on('image-remove', (evt, index) => {
+  images.rm(index, _ => {
+    evt.sender.send('image-removed', index)
+  })
+})
+
+global.openPhoto = function(imageToOpen) {
+  shell.showItemInFolder(imageToOpen)
+}

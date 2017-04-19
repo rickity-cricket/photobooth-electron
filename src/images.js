@@ -3,6 +3,8 @@ const path = require('path')
 
 const logError = err => err && console.error(err);
 
+let images = []
+
 function getTheDate() {
   var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -21,15 +23,19 @@ function getTheDate() {
   if(ss<10){
     ss='0'+ss;
   }
-  console.log('PHOTOBOOTH.'+dd+mm+yyyy+'.'+hh+'.'+mins+'.'+ss);
   return today = 'PHOTOBOOTH.'+dd+mm+yyyy+'.'+hh+'.'+mins+'.'+ss
 }
 
-exports.save = (picturesPath, contents) => {
+exports.save = (picturesPath, contents, done) => {
   const base64Data = contents.replace(/^data:image\/png;base64,/, '')
-  var fileName = getTheDate()
+  var theDate = getTheDate()
+  var fileName = path.join(picturesPath, `${theDate}.png`)
   console.log(fileName);
-  fs.writeFile(path.join(picturesPath, `${fileName}.png`), base64Data, { encoding: 'base64' }, logError)
+  fs.writeFile(fileName, base64Data, { encoding: 'base64' }, err => {
+    if (err) return logError(err)
+
+    done(null, fileName)
+  })
 }
 
 exports.getPicturesDir = app => {
@@ -43,4 +49,22 @@ exports.mkdir = picturesPath => {
     else if (err || !stats.isDirectory())
       fs.mkdir(picturesPath, logError)
   })
+}
+
+exports.rm = (index, done) => {
+  fs.unlink(images[index], err => {
+    if (err) return logError(err)
+
+    images.splice(index, 1)
+    done()
+  })
+}
+
+exports.cache = imgPath => {
+  images = images.concat([imgPath])
+  return images
+}
+
+exports.getFromCache = index => {
+  return images[index]
 }
