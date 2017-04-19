@@ -35,6 +35,10 @@ ipc.on('image-remove', (evt, index) => {
   })
 })
 
-global.openPhoto = function(imageToOpen) {
+ipc.on('image-show', (evt, imageToOpen) => {
   shell.showItemInFolder(imageToOpen)
-}
+})
+
+// global.openPhoto = function(imageToOpen) {
+//   shell.showItemInFolder(imageToOpen)
+// }

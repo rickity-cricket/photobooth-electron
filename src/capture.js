@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', _ => {
 
   recordEl.addEventListener('click', _ => {
     countdown.start(counterEl, 3, _ =>{
-      flash(flashEl)
+      // flash(flashEl)
       const bytes = video.captureBytes(videoEl, ctx, canvasEl)
       ipc.send('image-captured', bytes)
       photosEl.appendChild(formatImgTag(document, bytes))
@@ -55,7 +55,8 @@ window.addEventListener('DOMContentLoaded', _ => {
       if (isRm)
         ipc.send('image-remove', index)
       else
-        openImg(images.getFromCache(index))
+        ipc.send('image-show', images.getFromCache(index))
+        // openImg(images.getFromCache(index))
     }
   })
 })
