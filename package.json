@@ -5,13 +5,16 @@
   "description": "my little photobooth app",
   "main": "src/main.js",
   "scripts": {
+    "build": "rimraf Photobooth-* && electron-packager . --platform=darwin,win32,linux --arch=x64 --icon=photobooth",
     "start": "electron ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^1.6.2"
+    "electron": "^1.6.2",
+    "electron-packager": "^8.6.0",
+    "rimraf": "^2.6.1"
   },
   "dependencies": {
     "electron-localshortcut": "^1.1.1"
