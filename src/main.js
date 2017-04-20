@@ -1,7 +1,8 @@
 const electron = require('electron')
 const images = require('./images')
+const menuTemplate = require('./menu')
 const local = require('electron-localshortcut')
-const { app, BrowserWindow, ipcMain: ipc, shell } = electron
+const { app, BrowserWindow, ipcMain: ipc, shell, Menu } = electron
 
 app.on('ready', _ => {
   mainWindow = new BrowserWindow({
@@ -11,16 +12,20 @@ app.on('ready', _ => {
   })
 
   mainWindow.loadURL(`file://${__dirname}/capture.html`)
+  // mainWindow.openDevTools()
 
   images.mkdir(images.getPicturesDir(app))
 
-  local.register(mainWindow,'CmdOrCtrl+Q', _ => {
-    app.quit()
-  })
+  // local.register(mainWindow,'CmdOrCtrl+Q', _ => {
+  //   app.quit()
+  // })
 
   mainWindow.on('closed', _ => {
     mainWindow = null
   })
+
+  const menuContents = Menu.buildFromTemplate(menuTemplate(mainWindow))
+  Menu.setApplicationMenu(menuContents)
 })
 
 ipc.on('image-captured', (evt, contents) => {

@@ -1,7 +1,8 @@
 {
   "name": "photobooth-app",
+  "productName": "Photobooth",
   "version": "1.0.0",
-  "description": "",
+  "description": "my little photobooth app",
   "main": "src/main.js",
   "scripts": {
     "start": "electron ."

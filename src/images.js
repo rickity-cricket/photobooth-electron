@@ -1,5 +1,7 @@
 const fs = require('fs')
 const path = require('path')
+const shell = require('electron').shell
+const spawn = require('child_process').spawn
 
 const logError = err => err && console.error(err);
 
@@ -68,3 +70,17 @@ exports.cache = imgPath => {
 exports.getFromCache = index => {
   return images[index]
 }
+
+const openCmds = {
+  darwin: 'open',
+  win32: 'explorer',
+  linux: 'nautilus'
+}
+
+exports.openDir = dirPath => {
+  const cmd = openCmds[process.platform]
+  if (cmd)
+    spawn(cmd, [ dirPath ])
+  else
+    shell.showItemInFolder(dirPath)
+ }
