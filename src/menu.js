@@ -1,6 +1,6 @@
 const electron = require('electron')
 const images = require('./images')
-const { app } = electron
+const { app, BrowserWindow } = electron
 
 function enabledCycleEffect(items) {
   const nonEffectMenuOffset = 2
@@ -10,7 +10,13 @@ function enabledCycleEffect(items) {
 }
 
 function openAbout() {
-
+  let aboutWindow = new BrowserWindow({
+    height: 450,
+    width: 300,
+    titleBarStyle: 'hidden-inset',
+    resizeable: 'false'
+  })
+  aboutWindow.loadURL(`file://${__dirname}/about.html`)
 }
 
 module.exports = mainWindow => {

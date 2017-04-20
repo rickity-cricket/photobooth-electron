@@ -1,0 +1,11 @@
+.centred {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+  border-radius: 8px;
+  width: 50px;
+}
