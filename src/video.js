@@ -11,7 +11,7 @@ const constraints = {
 }
 
 function handleSuccess (videoEl, stream) {
-  videoEl.src = window.URL.createObjectURL(stream)
+  videoEl.srcObject = stream
 }
 
 function handleError(error) {

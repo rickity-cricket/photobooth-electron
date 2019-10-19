@@ -6,8 +6,11 @@ const { app, BrowserWindow, ipcMain: ipc, shell, Menu } = electron
 
 app.on('ready', _ => {
   mainWindow = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true
+    },
     width: 725,
-    height: 1200,
+    height: 800,
     resizeable: false
   })
 
@@ -16,9 +19,9 @@ app.on('ready', _ => {
 
   images.mkdir(images.getPicturesDir(app))
 
-  // local.register(mainWindow,'CmdOrCtrl+Q', _ => {
-  //   app.quit()
-  // })
+  local.register(mainWindow,'CmdOrCtrl+Q', _ => {
+    app.quit()
+  })
 
   mainWindow.on('closed', _ => {
     mainWindow = null
